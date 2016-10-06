@@ -1,6 +1,12 @@
 package ru.atom.client;
 
 import org.junit.Test;
+import ru.atom.model.Gender;
+import ru.atom.model.Person;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -13,18 +19,27 @@ public class RestClientImplTest {
 
     @Test
     public void register() throws Exception {
-        String user = null;
-        String password = null;
+        String user = "dravyman";
+        String password = "123456";
         assertTrue(client.register(user, password));
     }
 
     @Test
     public void login() throws Exception {
-        assertEquals(Long.valueOf(1), client.login("admin", "admin"));
+        assertEquals(Long.valueOf(1), client.login("dravyman", "123456"));
     }
 
     @Test
-    public void getBatch() throws Exception {
+    public void getBatch() throws Exception
+    {
+        /*String user = "dravyman";
+        String password = "123456";
+        Long token = client.login(user,password);*/
+        Collection<? extends Person> list =  client.getBatch(Gender.FEMALE);
+        for (Person pr : list)
+        {
+            System.out.println(pr.getName());
+        }
 
     }
 
