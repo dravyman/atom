@@ -1,7 +1,5 @@
 package ru.atom.server.api;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ru.atom.model.Gender;
 import ru.atom.model.Image;
 import ru.atom.model.Location;
@@ -18,6 +16,11 @@ import java.util.UUID;
 
 @Path("/data")
 public class DataProvider {
+<<<<<<< HEAD
+=======
+    private static PersonBatchHolder LADYS;
+    private static PersonBatchHolder MEN;
+>>>>>>> origin/master
 
     @Authorized
     @POST
@@ -39,7 +42,10 @@ public class DataProvider {
             ).build();
     }
 
+<<<<<<< HEAD
     private static PersonBatchHolder LADYS;
+=======
+>>>>>>> origin/master
     static {
         try {
             LADYS = PersonBatchHolder.of(
@@ -82,7 +88,9 @@ public class DataProvider {
                             .setAge(90)
                             .setImage(new Image(new URL("https://upload.wikimedia.org/wikipedia/commons/5/50/Queen_Elizabeth_II_March_2015.jpg"), 1820, 2400))
                             .setInstagramUrl(new URL("https://www.instagram.com/queen_elizabeth_fanpage/"))
-                            .setLocation(new Location(51.507222, -0.1275)),
+                            .setLocation(new Location(51.507222, -0.1275))
+                    );
+            MEN = PersonBatchHolder.of(
                     new Person()
                             .setId(UUID.randomUUID())
                             .setName("Homer 'Jay' Simpson")
