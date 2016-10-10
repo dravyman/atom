@@ -1,6 +1,7 @@
 package matchmaker;
 
 import model.GameSession;
+import model.GameSessionImpl;
 import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +50,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    GameSessionImpl smbdGame = new GameSessionImpl();
+    return smbdGame;
   }
 }
