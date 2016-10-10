@@ -42,7 +42,13 @@ public class RestClientImpl implements RestClient {
     public Long login(String user, String password) {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType,
+<<<<<<< HEAD
+                "login=" + user +
+                "&" +
+                "password=" + password
+=======
                 String.format("login=%s&password=%s", user,password)
+>>>>>>> master
         );
         Request request = new Request.Builder()
                 .url(PROTOCOL + "://" + HOST + ":" + PORT + "/auth/login")
@@ -61,16 +67,24 @@ public class RestClientImpl implements RestClient {
 
     @Override
     public Collection<? extends Person> getBatch(Long token, Gender gender) {
+<<<<<<< HEAD
         List<Person> res = new ArrayList<>();
+=======
+>>>>>>> master
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, String.format("gender=$s",Gender.FEMALE));
         Request request = new Request.Builder()
+<<<<<<< HEAD
                 .url(PROTOCOL + "://" + HOST + ":" + PORT + "/data/personsbatch")
+=======
+                .url(PROTOCOL + "://" + HOST + ":" + PORT +"/data/personsbatch")
+>>>>>>> master
                 .post(body)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .addHeader("Authorization:", "Bearer " + token)
                 .build();
-        try {
+<<<<<<< HEAD
+
         try {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
@@ -79,6 +93,14 @@ public class RestClientImpl implements RestClient {
         } catch (IOException e) {
             // log
             return res;
+=======
+        try {
+            Response response = client.newCall(request).execute();
+            PersonBatchHolder res = PersonBatchHolder.readJson(response.body().string());
+            return res.GetPersons();
+        } catch (IOException e) {
+            return null;
+>>>>>>> master
         }
     }
 }

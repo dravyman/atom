@@ -15,6 +15,8 @@ import static org.junit.Assert.*;
  */
 public class RestClientImplTest {
 
+    private String user = "dravyman";
+    private String password = "123456";
     private RestClient client = new RestClientImpl();
 
     @Test
@@ -26,7 +28,7 @@ public class RestClientImplTest {
 
     @Test
     public void login() throws Exception {
-        assertEquals(Long.valueOf(1), client.login("dravyman", "123456"));
+        assertEquals(Long.valueOf(1), client.login(user, password));
     }
 
     @Test
@@ -41,6 +43,12 @@ public class RestClientImplTest {
             System.out.println(pr.getName());
         }
 
+        long temp = client.login(user,password);
+        Collection<? extends Person> peoples = client.getBatch(temp, Gender.FEMALE);
+        for (Person p : peoples) {
+            System.out.println(p.getName());
+            System.out.println(p.getAge());
+            System.out.println("");
+        }
     }
-
 }
