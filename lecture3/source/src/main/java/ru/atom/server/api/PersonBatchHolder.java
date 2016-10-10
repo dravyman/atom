@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ru.atom.model.Person;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +23,24 @@ public class PersonBatchHolder {
     }
 
     public String writeJson() throws JsonProcessingException {
-        return mapper.writeValueAsString(this);
+        return mapper.writeValueAsString(this.persons);
     }
 
     private PersonBatchHolder(List<? extends Person> persons) {
         this.persons = persons;
+    }
+
+    public static PersonBatchHolder readJson(String json) throws IOException {
+        return mapper.readValue(json,PersonBatchHolder.class);
+    }
+    /*public static PersonBatchHolder readJson(String json) throws IOException {
+        return new PersonBatchHolder(mapper.readValue(json,mapper.getTypeFactory().constructCollectionType(List.class,Person.class)));
+    }*/
+    public List<? extends Person> GetPersons(){
+        return persons;
+    }
+    public PersonBatchHolder SetPersons(List<? extends Person> val){
+        this.persons = val;
+        return this;
     }
 }

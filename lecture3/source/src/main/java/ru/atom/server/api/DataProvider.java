@@ -16,11 +16,8 @@ import java.util.UUID;
 
 @Path("/data")
 public class DataProvider {
-<<<<<<< HEAD
-=======
     private static PersonBatchHolder LADYS;
     private static PersonBatchHolder MEN;
->>>>>>> origin/master
 
     @Authorized
     @POST
@@ -42,10 +39,6 @@ public class DataProvider {
             ).build();
     }
 
-<<<<<<< HEAD
-    private static PersonBatchHolder LADYS;
-=======
->>>>>>> origin/master
     static {
         try {
             LADYS = PersonBatchHolder.of(

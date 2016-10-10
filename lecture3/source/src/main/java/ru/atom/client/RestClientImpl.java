@@ -3,6 +3,7 @@ package ru.atom.client;
 import com.squareup.okhttp.*;
 import ru.atom.model.Gender;
 import ru.atom.model.Person;
+import ru.atom.server.api.PersonBatchHolder;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -12,12 +13,9 @@ public class RestClientImpl implements RestClient {
     private static final String HOST = "localhost";
     private static final String PORT = "8080";
     private static final String SERVICE_URL = PROTOCOL + "://" + HOST + ":" + PORT;
-
     private static final OkHttpClient client = new OkHttpClient();
 
     public boolean register(String user, String password) {
-
-
         MediaType mediaType = MediaType.parse("raw");
         RequestBody body = RequestBody.create(
                 mediaType,
@@ -41,13 +39,9 @@ public class RestClientImpl implements RestClient {
     }
 
     public Long login(String user, String password) {
-
-
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType,
-                "login=admin" +
-                        "&" +
-                        "password=admin"
+                String.format("login=%s&password=%s", user,password)
         );
         Request request = new Request.Builder()
                 .url(PROTOCOL + "://" + HOST + ":" + PORT + "/auth/login")
@@ -66,18 +60,20 @@ public class RestClientImpl implements RestClient {
 
     @Override
     public Collection<? extends Person> getBatch(Long token, Gender gender) {
-        OkHttpClient client = new OkHttpClient();
-
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "gender=FEMALE");
+        RequestBody body = RequestBody.create(mediaType, String.format("gender=$s",Gender.FEMALE));
         Request request = new Request.Builder()
-                .url("http://localhost:8080/data/personsbatch")
+                .url(PROTOCOL + "://" + HOST + ":" + PORT +"/data/personsbatch")
                 .post(body)
                 .addHeader("authorization", "Bearer " + token)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
-
-        return null;
-        //Response response = client.newCall(request).execute();
+        try {
+            Response response = client.newCall(request).execute();
+            PersonBatchHolder res = PersonBatchHolder.readJson(response.body().string());
+            return res.GetPersons();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }
